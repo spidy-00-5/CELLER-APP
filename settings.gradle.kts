@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "CELLER-APP"
 include(":app")
- 
