@@ -52,12 +52,14 @@ fun HomeScreen(
                     .fillMaxWidth(),
                 shape = RoundedCornerShape(14.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             ) {
                 Text(
                     text = stringResource(R.string.fakecall),
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+
                 )
             }
             Text(
@@ -74,12 +76,13 @@ fun HomeScreen(
 
                 shape = RoundedCornerShape(14.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             ) {
                 Text(
                     text = stringResource(R.string.emergency),
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             Text(

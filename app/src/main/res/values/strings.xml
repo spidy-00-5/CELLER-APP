@@ -11,6 +11,19 @@
     <string name="emergency_desc">
         Send SOS &amp; call trusted contact
     </string>
+    <string name="permission_title">Permissions Required</string>
+    <string name="permission_subtitle">
+We need these permissions to help you during emergencies.
+</string>
+
+    <string name="permission_phone">Phone – make emergency calls</string>
+    <string name="permission_sms">Messages – send SOS alerts</string>
+    <string name="permission_location">Location – share your position</string>
+
+    <string name="permission_allow">ALLOW</string>
+    <string name="permission_denied">
+Permissions are required for emergency features to work.
+</string>
 
 
 
