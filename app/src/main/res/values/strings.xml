@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">CELLER-APP</string>
-    <string name="greeting">Hello,WelCome</string>
-    <string name="fakecall">FakeCall</string>
-    <string name="emergency">EmergencyCall</string>
+    <string name="greeting">Hello ,GOWTHAM</string>
+
+    <string name="fakecall">FAKE CALL</string>
+    <string name="fakecall_desc">
+        Simulate an incoming call instantly
+    </string>
+
+    <string name="emergency">EMERGENCY MODE</string>
+    <string name="emergency_desc">
+        Send SOS &amp; call trusted contact
+    </string>
+
 
 
 </resources>
