@@ -54,7 +54,7 @@ fun HomeScreen(
 }
 
 
-@Preview
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun HomeScreenPreview() {
     HomeScreen( modifier = Modifier, onFakeCall = {}, onEmergency = {})
