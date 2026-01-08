@@ -1,37 +1,30 @@
 package com.example.celler_app.uiscreen
 
-import android.R.attr.text
-import android.R.attr.top
-import android.graphics.Paint
+import android.Manifest
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.celler_app.R
 import com.example.celler_app.ui.theme.CellerAppTheme
-import android.Manifest
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.text.font.FontWeight.Companion.Bold
+import android.provider.Settings
 
 @Composable
 fun PermissionScreen(
@@ -195,18 +188,43 @@ fun InformationBox(
         Button(
             onClick = onNext,
             modifier = Modifier
-                .padding(top = 60.dp),
+                .padding(top = 60.dp)
+                .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary
             )
         ){
-            Text(text = "Next")
+            Text(
+                text = "Next",
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.titleLarge
+            )
         }
-
+        OpenAccessibilitySettingsButton()
      }
   }
 }
-
+@Composable
+fun OpenAccessibilitySettingsButton() {
+    val context = LocalContext.current
+    Button(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondary
+        ),
+        onClick = {
+        context.startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+    }
+    ) {
+        Text(
+            text = "Open Accessibility Settings",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.titleLarge.copy(color = Color.White)
+        )
+    }
+}
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun PermissionScreenPreview() {
@@ -228,6 +246,7 @@ private fun InformationBoxPreview() {
         dynamicColor = false
     ){
         InformationBox(onNext = {})
+
     }
 }
 

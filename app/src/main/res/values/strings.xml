@@ -29,7 +29,7 @@ Permissions are required for emergency features to work.
         <item>Open Accessibility Settings</item>
         <item>Go to Installed Services</item>
         <item>Select "Celler"</item>
-        <item>Turn on the service and confirm</item>
+        <item>Turn on the switch and confirm</item>
     </string-array>
     <string name="instructions">Steps to enable:</string>
 </resources>
