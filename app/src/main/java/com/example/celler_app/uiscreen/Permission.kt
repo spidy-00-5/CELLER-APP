@@ -30,6 +30,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 
 @Composable
 fun PermissionScreen(
@@ -40,14 +42,17 @@ fun PermissionScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ){
+
 
         Column(
             modifier = modifier
                 .fillMaxSize()
                 .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 modifier = Modifier
@@ -85,7 +90,7 @@ private fun PermissionItem(text: String) {
         Text(
             text = text,
             modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.bodyMedium.copy(color = Color.Black)
+            style = MaterialTheme.typography.titleLarge.copy(color = Color.Black)
         )
     }
 }
@@ -134,6 +139,74 @@ fun PermissionButton(
     }
 }
 
+@Composable
+fun InformationBox(
+   onNext: () -> Unit
+){  Column(
+    modifier = Modifier
+        .fillMaxSize()
+        .background(color = MaterialTheme.colorScheme.background),
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+
+        ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.background),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
+        ) {
+            Text(
+                text = stringResource(R.string.info_volume),
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.titleLarge,
+                color = Color.Black
+            )
+
+        }
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(top = 16.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
+        ) {
+            val steps = stringArrayResource(R.array.accessibility_steps_array)
+            Column(Modifier.padding(16.dp)) {
+                  Text(
+                       modifier = Modifier.padding(bottom = 16.dp),
+                       text = stringResource(R.string.instructions),
+                       style = MaterialTheme.typography.titleLarge.copy(color = Color.Black),
+                )
+                steps.forEachIndexed { index, step ->
+                    Text(
+                        text = "${index + 1}. $step",
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        style = MaterialTheme.typography.titleLarge.copy(color = Color.Black, fontWeight = Bold),
+                    )
+                }
+            }
+        }
+        Button(
+            onClick = onNext,
+            modifier = Modifier
+                .padding(top = 60.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondary
+            )
+        ){
+            Text(text = "Next")
+        }
+
+     }
+  }
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun PermissionScreenPreview() {
@@ -144,4 +217,19 @@ private fun PermissionScreenPreview() {
         PermissionScreen(onPermissionGranted = {})
     }
 }
+
+
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun InformationBoxPreview() {
+    CellerAppTheme(
+        darkTheme = false,
+        dynamicColor = false
+    ){
+        InformationBox(onNext = {})
+    }
+}
+
+
 

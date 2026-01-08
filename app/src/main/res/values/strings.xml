@@ -24,7 +24,12 @@ We need these permissions to help you during emergencies.
     <string name="permission_denied">
 Permissions are required for emergency features to work.
 </string>
-
-
-
+    <string name="info_volume"> Enable Accessibility Service so Celler can detect hardware button actions even when the screen is off or the app is in the background.</string>
+    <string-array name="accessibility_steps_array">
+        <item>Open Accessibility Settings</item>
+        <item>Go to Installed Services</item>
+        <item>Select "Celler"</item>
+        <item>Turn on the service and confirm</item>
+    </string-array>
+    <string name="instructions">Steps to enable:</string>
 </resources>
