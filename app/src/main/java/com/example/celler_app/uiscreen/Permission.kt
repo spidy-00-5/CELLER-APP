@@ -236,8 +236,6 @@ private fun PermissionScreenPreview() {
     }
 }
 
-
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun InformationBoxPreview() {
@@ -246,7 +244,6 @@ private fun InformationBoxPreview() {
         dynamicColor = false
     ){
         InformationBox(onNext = {})
-
     }
 }
 
