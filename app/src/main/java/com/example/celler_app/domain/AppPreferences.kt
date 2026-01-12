@@ -12,91 +12,57 @@ val Context.dataStore by preferencesDataStore(name = "celler_settings")
 class AppPreferences(private val context: Context) {
 
     companion object {
-        // Fake Call
-        val FAKE_TRIGGER_COUNT = intPreferencesKey("fake_trigger_count")
-        val FAKE_CALLER_NAME = stringPreferencesKey("fake_caller_name")
-        val FAKE_CALLER_NUMBER = stringPreferencesKey("fake_caller_number")
-        val FAKE_PHOTO_URI = stringPreferencesKey("fake_photo_uri")
-        val FAKE_THEME = stringPreferencesKey("fake_theme")
-        val FAKE_DELAY = intPreferencesKey("fake_delay")
+        val MODE = stringPreferencesKey("mode")
 
-        // Emergency
-        val EMERGENCY_TRIGGER_COUNT = intPreferencesKey("emergency_trigger_count")
-        val EMERGENCY_CALL_NUMBER = stringPreferencesKey("emergency_call_number")
-        val EMERGENCY_SMS_NUMBER = stringPreferencesKey("emergency_sms_number")
-        val EMERGENCY_MESSAGE = stringPreferencesKey("emergency_message")
-        val EMERGENCY_SHARE_LOCATION = booleanPreferencesKey("emergency_share_location")
-        val EMERGENCY_AUTO_CALL = booleanPreferencesKey("emergency_auto_call")
+        val FAKE_NAME = stringPreferencesKey("fake_name")
+        val FAKE_NUMBER = stringPreferencesKey("fake_number")
+
+        val EMER_CALL = stringPreferencesKey("emergency_call")
+        val EMER_SMS = stringPreferencesKey("emergency_sms")
+        val EMER_MESSAGE = stringPreferencesKey("emergency_message")
     }
 
-    // --- Save Methods ---
-    suspend fun saveFakeCallSettings(
-        trigger: Int,
-        name: String,
-        number: String,
-        photo: String,
-        theme: String,
-        delay: Int
-    ) {
+    suspend fun setMode(mode: String) {
         context.dataStore.edit { prefs ->
-            prefs[FAKE_TRIGGER_COUNT] = trigger
-            prefs[FAKE_CALLER_NAME] = name
-            prefs[FAKE_CALLER_NUMBER] = number
-            prefs[FAKE_PHOTO_URI] = photo
-            prefs[FAKE_THEME] = theme
-            prefs[FAKE_DELAY] = delay
+            prefs[MODE] = mode
         }
     }
 
-    suspend fun saveEmergencySettings(
-        trigger: Int,
-        callNumber: String,
-        smsNumber: String,
-        message: String,
-        share: Boolean,
-        autoCall: Boolean
+    fun getMode(): Flow<String> = context.dataStore.data.map { prefs ->
+        prefs[MODE] ?: "FAKE_CALL"
+    }
+
+    suspend fun saveSettings(
+        fakeName: String,
+        fakeNumber: String,
+        emerCall: String,
+        emerSms: String,
+        emerMessage: String
     ) {
         context.dataStore.edit { prefs ->
-            prefs[EMERGENCY_TRIGGER_COUNT] = trigger
-            prefs[EMERGENCY_CALL_NUMBER] = callNumber
-            prefs[EMERGENCY_SMS_NUMBER] = smsNumber
-            prefs[EMERGENCY_MESSAGE] = message
-            prefs[EMERGENCY_SHARE_LOCATION] = share
-            prefs[EMERGENCY_AUTO_CALL] = autoCall
+            prefs[FAKE_NAME] = fakeName
+            prefs[FAKE_NUMBER] = fakeNumber
+            prefs[EMER_CALL] = emerCall
+            prefs[EMER_SMS] = emerSms
+            prefs[EMER_MESSAGE] = emerMessage
         }
     }
 
-    // --- Read ---
-    fun getSettings(): Flow<SettingsData> = context.dataStore.data.map { prefs ->
+    fun loadSettings(): Flow<SettingsData> = context.dataStore.data.map { prefs ->
         SettingsData(
-            fakeTrigger = prefs[FAKE_TRIGGER_COUNT] ?: 3,
-            fakeCallerName = prefs[FAKE_CALLER_NAME] ?: "",
-            fakeCallerNumber = prefs[FAKE_CALLER_NUMBER] ?: "",
-            fakePhotoUri = prefs[FAKE_PHOTO_URI] ?: "",
-            fakeTheme = prefs[FAKE_THEME] ?: "DEFAULT",
-            fakeDelay = prefs[FAKE_DELAY] ?: 0,
-
-            emergencyTrigger = prefs[EMERGENCY_TRIGGER_COUNT] ?: 3,
-            emergencyCallNumber = prefs[EMERGENCY_CALL_NUMBER] ?: "",
-            emergencySmsNumber = prefs[EMERGENCY_SMS_NUMBER] ?: "",
-            emergencyMessage = prefs[EMERGENCY_MESSAGE] ?: "I need help!",
-            emergencyShareLocation = prefs[EMERGENCY_SHARE_LOCATION] ?: false,
-            emergencyAutoCall = prefs[EMERGENCY_AUTO_CALL] ?: false,
+            fakeName = prefs[FAKE_NAME] ?: "",
+            fakeNumber = prefs[FAKE_NUMBER] ?: "",
+            emergencyCall = prefs[EMER_CALL] ?: "",
+            emergencySms = prefs[EMER_SMS] ?: "",
+            emergencyMessage = prefs[EMER_MESSAGE] ?: "I need help!"
         )
     }
 }
 
 data class SettingsData(
-    val fakeTrigger: Int,
-    val fakeCallerName: String,
-    val fakeCallerNumber: String,
-    val fakePhotoUri: String,
-    val fakeTheme: String,
-    val fakeDelay: Int,
-    val emergencyTrigger: Int,
-    val emergencyCallNumber: String,
-    val emergencySmsNumber: String,
-    val emergencyMessage: String,
-    val emergencyShareLocation: Boolean,
-    val emergencyAutoCall: Boolean
+    val fakeName: String,
+    val fakeNumber: String,
+    val emergencyCall: String,
+    val emergencySms: String,
+    val emergencyMessage: String
 )

@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation(libs.androidx.core.ktx)

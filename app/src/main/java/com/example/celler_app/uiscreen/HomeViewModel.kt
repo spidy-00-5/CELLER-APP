@@ -1,5 +1,4 @@
-package com.example.celler_app.uiscreen
-
+package com.example.celler_app.ui.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

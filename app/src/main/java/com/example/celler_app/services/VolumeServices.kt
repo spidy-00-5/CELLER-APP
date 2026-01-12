@@ -1,35 +1,88 @@
 package com.example.celler_app.services
 
 import android.accessibilityservice.AccessibilityService
-import android.accessibilityservice.AccessibilityServiceInfo
+import android.content.Intent
 import android.view.KeyEvent
-import android.view.accessibility.AccessibilityEvent
+import kotlinx.coroutines.*
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.datastore.preferences.core.edit
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import com.example.celler_app.domain.AppPreferences
+import com.example.celler_app.uiscreen.FakeCallActivity
 
 class VolumeService : AccessibilityService() {
 
-    override fun onServiceConnected() {
-        val info = AccessibilityServiceInfo().apply {
-            flags = AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS
-        }
-        serviceInfo = info
-    }
+    private var pressCount = 0
+    private var lastPressTime = 0L
+
+    override fun onAccessibilityEvent(event: android.view.accessibility.AccessibilityEvent?) {}
+
+    override fun onInterrupt() {}
 
     override fun onKeyEvent(event: KeyEvent): Boolean {
-        // TEMP: Just log for now to verify it's working
-        if (event.action == KeyEvent.ACTION_DOWN) {
-            if (event.keyCode == KeyEvent.KEYCODE_VOLUME_UP ||
-                event.keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-                println("Volume pressed!")
-            }
+        if (event.action == KeyEvent.ACTION_DOWN &&
+            (event.keyCode == KeyEvent.KEYCODE_VOLUME_UP || event.keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+
+            handleVolumePress()
+            return true
         }
         return super.onKeyEvent(event)
     }
 
-    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        // not used now
+    private fun handleVolumePress() {
+        val now = System.currentTimeMillis()
+
+        if (now - lastPressTime > 2000) {
+            pressCount = 0
+        }
+
+        pressCount++
+        lastPressTime = now
+
+        if (pressCount == 3) {
+            pressCount = 0
+            triggerAction()
+        }
     }
 
-    override fun onInterrupt() {
-        // not used now
+    private fun triggerAction() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val prefs = AppPreferences(this@VolumeService)
+            val mode = prefs.getMode().first()
+
+            when (mode) {
+                "FAKE_CALL" -> handleFakeCall()
+                "EMERGENCY" -> handleEmergency()
+            }
+        }
+    }
+
+    private fun handleFakeCall() {
+        val intent = Intent(this, FakeCallActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+    }
+    private fun handleEmergency() {
+        val prefs = AppPreferences(this)
+        CoroutineScope(Dispatchers.Main).launch {
+            prefs.loadSettings().collect { data ->
+                val emergencyHelper = EmergencyActionHelper(this@VolumeService)
+
+                // 1. Send Emergency Message
+                if (data.emergencySms.isNotEmpty()) {
+                    emergencyHelper.sendSms(data.emergencySms, data.emergencyMessage)
+                }
+
+                // 2. Send Location (optional)
+                emergencyHelper.sendLocation(data.emergencySms)
+
+                // 3. Call Emergency Number
+                if (data.emergencyCall.isNotEmpty()) {
+                    emergencyHelper.startCall(data.emergencyCall)
+                }
+            }
+        }
     }
 }
