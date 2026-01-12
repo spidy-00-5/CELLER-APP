@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import com.example.celler_app.domain.AppPreferences
+import com.example.celler_app.emergency.EmergencyActionHelper
 import com.example.celler_app.uiscreen.FakeCallActivity
 
 class VolumeService : AccessibilityService() {
