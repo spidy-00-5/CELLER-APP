@@ -20,78 +20,74 @@ import androidx.compose.ui.unit.dp
 import com.example.celler_app.R
 import com.example.celler_app.ui.theme.CellerAppTheme
 
-//this page contains ui of home screen of the app ,
-// it has two buttons one for fake call and other for emergency mode
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     onFakeCall: () -> Unit,
-    onEmergency: () -> Unit,
+    onEmergency: () -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(horizontal = 24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+
+        Text(
+            text = stringResource(R.string.greeting),
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+        // Primary Action (Fake Call)
+        Button(
+            onClick = onFakeCall,
+            modifier = Modifier
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(14.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            )
         ) {
             Text(
-                modifier = Modifier.padding(bottom = 24.dp),
-                text = stringResource(R.string.greeting),
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Button(
-                onClick = onFakeCall,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(14.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.fakecall),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-
-                )
-            }
-            Text(
-                modifier = Modifier.padding(top = 5.dp, bottom = 24.dp),
-                text = stringResource(R.string.fakecall_desc),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
-            )
-
-            Button(
-                onClick = onEmergency,
-                modifier = Modifier
-                    .fillMaxWidth(),
-
-                shape = RoundedCornerShape(14.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.emergency),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }
-            Text(
-                modifier = Modifier.padding(top = 5.dp),
-                text = stringResource(R.string.emergency_desc),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                text = stringResource(R.string.fakecall),
+                style = MaterialTheme.typography.labelLarge
             )
         }
+
+        Text(
+            text = stringResource(R.string.fakecall_desc),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+            modifier = Modifier.padding(top = 6.dp, bottom = 24.dp)
+        )
+
+        // Secondary Action (Emergency)
+        Button(
+            onClick = onEmergency,
+            modifier = Modifier
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(14.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary
+            )
+        ) {
+            Text(
+                text = stringResource(R.string.emergency),
+                style = MaterialTheme.typography.labelLarge
+            )
+        }
+
+        Text(
+            text = stringResource(R.string.emergency_desc),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
+            modifier = Modifier.padding(top = 6.dp)
+        )
     }
 }
 

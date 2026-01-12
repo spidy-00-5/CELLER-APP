@@ -11,7 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.celler_app.ui.theme.CellerAppTheme
+import com.example.celler_app.uiscreen.HomeScreen
+import com.example.celler_app.uiscreen.HomeViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,16 +22,22 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CellerAppTheme() {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    val homeViewModel: HomeViewModel = viewModel()
+
+                    HomeScreen(
+                        onFakeCall = {
+                            homeViewModel.setFakeCallMode()
+                            // navigate or show toast if needed
+                        },
+                        onEmergency = {
+                            homeViewModel.setEmergencyMode()
+                            // navigate or show toast if needed
+                        }
                     )
                 }
             }
         }
     }
-}
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
